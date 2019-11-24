@@ -37,7 +37,6 @@ def wordFrequencyAndEntropy(text):
     ### String pre procesing  ##
     text = removePunctutaions(text)
     text = [word for word in text.split() if word not in (stopwords.words('english'))]
-    ########
     d = {}
     for t in text:
         if(t in d.keys()):
@@ -75,7 +74,6 @@ def main(file_name, column_name):
     df.sort_values(by='name', ascending=True, inplace=True)
     df = df.groupby(by='name')['text'].apply(dfToString).reset_index()
     print("Input sorted")
-    ############# pre-processed data frame #############
     
     entropy = []
     custom_entropy = []
@@ -86,7 +84,7 @@ def main(file_name, column_name):
     #sen1,sen2 = [],[]
     print("Calculating sentiment score and entropy")
     neg, neu, pos,critic_score= [],[],[],[]
-    critic = readData('C:/Users/thakk/OneDrive/Desktop/Slack/Crit/LinkedIn Crit/critic.txt')
+    critic = readData('critic.txt')
     for index,rows in df.iterrows():
         #print(index, len(rows.text))
         t = df.loc[index]['text']
@@ -132,8 +130,8 @@ def main(file_name, column_name):
     from email.mime.base import MIMEBase 
     from email import encoders 
       
-    fromaddr = "cee300asu@gmail.com"
-    toaddr = ["thakkarsamip1310@gmail.com", "samipthakkar1310@gmail.com"]
+    fromaddr = {sender_address}
+    toaddr = [{receiver_address}]
      
     for i in toaddr:
         msg = MIMEMultipart()
@@ -142,7 +140,7 @@ def main(file_name, column_name):
         msg['Subject'] = "Mail with attachment"
         body = "PFA"
         msg.attach(MIMEText(body, 'plain')) 
-        filename = "C:/Users/thakk/OneDrive/Desktop/Slack/Crit/LinkedIn Crit/output5.xlsx"
+        filename = {outputfile}
         
         attachment = open(filename, "rb") 
         p = MIMEBase('application', 'octet-stream') 
@@ -152,14 +150,14 @@ def main(file_name, column_name):
         msg.attach(p) 
         s = smtplib.SMTP('smtp.gmail.com', 587) 
         s.starttls() 
-        s.login(fromaddr, "thomasseager") 
+        s.login(fromaddr, {password}) 
         text = msg.as_string() 
         s.sendmail(fromaddr, i, text) 
         s.quit() 
     print("Check your mails!!!!")    
 if __name__ == '__main__':
     # data file name
-    file_name = "C:/Users/thakk/OneDrive/Desktop/Slack/Crit/LinkedIn Crit/LinkedInCrit_data.xlsx"
+    file_name = {input_data}
     column_name = ['name', 'text']
     main(file_name, column_name)
 
